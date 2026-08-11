@@ -2,37 +2,67 @@ import tkinter as tk
 from tkinter import filedialog
 from openpyxl import load_workbook, Workbook
 
-def select_file():
-    file_path = filedialog.askopenfilename(
-        title = 'Select File',
-        filetypes=[
-            ('Excel files', '*.xlsx'),
-            ('All files', '*.*')
-        ]
+root = tk.Tk()
+root.title('Excel combiner')
+root.geometry('400x200')
+
+file1 = None
+file2 = None
+
+def select_file1():
+    global file1
+
+    file1 = filedialog.askopenfilename(
+        title="Select First Excel File",
+        filetypes=[("Excel files", "*.xlsx")]
     )
 
-    if not file_path:
+    if file1:
+        file1_label.config(text=file1)
+
+def select_file2():
+    global file2
+
+    file2 = filedialog.askopenfilename(
+        title="Select Second Excel File",
+        filetypes=[("Excel files", "*.xlsx")]
+    )
+
+    if file2:
+        file2_label.config(text=file2)
+
+def combine_files():
+    if file1 is None and file2 is None:
+        print('Please select both files')
         return
 
-    print(f'Selected file: {file_path}')
+    print('file 1: ', file1)
+    print('file2: ', file2)
 
-    wb = load_workbook(file_path)
-
-    ws = wb.active
-
-# create tkinter window
-root = tk.Tk()
-root.title('File Formatter')
-root.geometry("400x300")
-
-# create button
-select_button = tk.Button(
+# file 1
+tk.Button(
     root,
-    text='Select Excel File',
-    command=select_file
-)
+    text='Select File 1',
+    command=select_file1
+).pack(pady=10)
 
-select_button.pack(pady=100)
+file1_label = tk.Label(root, text="No file selected")
+file1_label.pack()
+
+tk.Button(
+    root,
+    text='Select File 2',
+    command=select_file2
+).pack(pady=10)
+
+file2_label = tk.Label(root, text="No file selected")
+file2_label.pack()
+
+tk.Button(
+    root,
+    text='Combine Files',
+    command=combine_files
+).pack(pady=15)
 
 # start tkinter
 root.mainloop()
