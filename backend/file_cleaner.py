@@ -8,7 +8,7 @@ root.geometry('400x200')
 
 file1 = None
 file2 = None
-
+output_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx'
 def select_file1():
     global file1
 
@@ -31,33 +31,33 @@ def select_file2():
     if file2:
         file2_label.config(text=file2)
 
-def combine_files(file1, file2):
+def combine_files(file1, file2, output):
     if file1 is None and file2 is None:
         print('Waiting for file selection...')
         return
 
     wb1 = load_workbook(file1)
     wb2 = load_workbook(file2)
+    cleaned_file = load_workbook(output_path)
 
     ws1 = wb1.active
     ws2 = wb2.active
+    ws3 = cleaned_file.active
 
     data_dict1 = {}
 
     # need to fix- not trying to get the value while keeping .iter_cols
-    for cell in ws1.iter_cols(min_row=5, max_col=5):
-        cell = ws1.cell(
-            row=6,
-            column=5
-        ).value
-        print(cell)
+    for row in ws1.iter_rows(min_row=6, min_col=6, max_col=51):
+        for cell in row:
+            if cell.column == 51:
+                print(cell.value)
+            else:
+                print('this is not in column 51')
+            
 
-    cleaned_file = Workbook()
+    cleaned_file.save(output_path)
 
-    file_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx'
-    cleaned_file.save(file_path)
-
-    print('created excel file', file_path)
+    print('created excel file', output_path)
 
 
 # file 1
@@ -83,7 +83,7 @@ file2_label.pack()
 tk.Button(
     root,
     text='Combine Files',
-    command= lambda: combine_files(file1, file2)
+    command= lambda: combine_files(file1, file2, output_path)
 ).pack(pady=15)
 
 # start tkinter
