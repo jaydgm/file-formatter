@@ -46,25 +46,26 @@ def combine_files(file1, file2, output):
     ws2 = wb2.active
     ws3 = cleaned_file.active
 
-    data_dict1 = {}
+    def retrive_excel_data(ws):
+        data_dict = {}
+        for row in ws.iter_rows(min_row=5, max_row=18, min_col=6, max_col=51):
+            for cell in row:
+                if cell.value is not None:
+                    value = cell.value
+                    row_num = cell.row
+                    col_num = cell.column
+                    data_dict[(row_num, col_num)] = value
+        print(len(data_dict))
+        return data_dict
 
-    for row in ws1.iter_rows(min_row=5, max_row=18, min_col=6, max_col=51):
-        for cell in row:
-            if cell.value is not None:
-                value = cell.value
-                row_num = cell.row
-                col_num = cell.column
-                print(f'cell is at row {row_num} and at column {col_num}, value is {value} \n')
-                data_dict1[(row_num, col_num)] = value
-                print(data_dict1)
-                print(len(data_dict1))
-                # 38
+    data_dict1 = retrive_excel_data(ws1)
+    data_dict2 = retrive_excel_data(ws2)
 
+    print(data_dict1, '\n')
+    print(data_dict2)
+          
             
-
     cleaned_file.save(output_path)
-
-    print('created excel file', output_path)
 
 # file 1
 tk.Button(
