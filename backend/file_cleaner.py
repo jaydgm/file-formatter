@@ -10,7 +10,7 @@ root.geometry('400x200')
 
 file1 = None
 file2 = None
-output_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx'
+output_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx' if r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx' else r'C:\Users\rjayd\OneDrive\Work\excel files'
 def select_file1():
     global file1
 
