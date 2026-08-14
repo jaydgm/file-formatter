@@ -10,7 +10,7 @@ root.geometry('400x200')
 
 file1 = None
 file2 = None
-output_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx' if r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx' else r'C:\Users\rjayd\OneDrive\Work\excel files'
+output_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx'
 def select_file1():
     global file1
 
@@ -55,8 +55,10 @@ def combine_files(file1, file2, output):
                 row_num = cell.row
                 col_num = cell.column
                 print(f'cell is at row {row_num} and at column {col_num}, value is {value} \n')
-                data_dict1[value] = (row_num, col_num)
+                data_dict1[(row_num, col_num)] = value
                 print(data_dict1)
+                print(len(data_dict1))
+                # 38
 
             
 
