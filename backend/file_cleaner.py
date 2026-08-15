@@ -46,6 +46,7 @@ def combine_files(file1, file2, output):
     ws2 = wb2.active
     ws3 = cleaned_file.active
 
+    # helper function to get the data from both files and store them in respective dict's
     def retrive_excel_data(ws):
         data_dict = {}
         for row in ws.iter_rows(min_row=5, max_row=18, min_col=6, max_col=51):
@@ -55,15 +56,27 @@ def combine_files(file1, file2, output):
                     row_num = cell.row
                     col_num = cell.column
                     data_dict[(row_num, col_num)] = value
-        print(len(data_dict))
         return data_dict
 
     data_dict1 = retrive_excel_data(ws1)
     data_dict2 = retrive_excel_data(ws2)
 
-    print(data_dict1, '\n')
-    print(data_dict2)
-          
+    combined_data = {}
+
+    # iterate thru both dict's, add values with matching row/col key's, then append to dict
+    for key, value in data_dict1.items():
+        for key2, value2 in data_dict2.items():
+            if key2 == key:
+                combined_data[(key2)] = value + value2
+                break
+
+    # iterate over dict and add into new excel file
+    for (row, col), value in combined_data.items():
+        ws3.cell(
+            row=row,
+            column=col,
+            value=value
+        )
             
     cleaned_file.save(output_path)
 
