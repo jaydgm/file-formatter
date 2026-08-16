@@ -3,6 +3,7 @@ import pprint
 import tkinter as tk
 from tkinter import filedialog
 from openpyxl import load_workbook, Workbook
+import os
 
 root = tk.Tk()
 root.title('Excel combiner')
@@ -10,7 +11,11 @@ root.geometry('400x200')
 
 file1 = None
 file2 = None
-output_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx'
+pc_path = r'C:\Users\rjayd\OneDrive\Documents\Excel files\cleaned_file.xlsx' 
+laptop_path = r'C:\Users\rjayd\OneDrive\Work\excel_files\cleaned_file.xlsx'
+# pc and laptop have different paths, so check first if its the pc_path, if not, use laptop_path
+output_path = pc_path if os.path.exists(os.path.dirname(pc_path)) else laptop_path
+
 def select_file1():
     global file1
 
@@ -77,7 +82,8 @@ def combine_files(file1, file2, output):
             column=col,
             value=value
         )
-            
+
+    print('File created successfully!')
     cleaned_file.save(output_path)
 
 # file 1
