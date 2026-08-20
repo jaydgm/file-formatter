@@ -55,10 +55,12 @@ def combine_files(file1, file2, output):
     def retrive_excel_data(ws):
         data_dict = {}
         for row in ws.iter_rows(min_row=5, max_row=22, min_col=6, max_col=51):
+            # getting current row # to use in skipping rows with formula's (19 & 21)
             current_row = row[0].row
-
-            if current_row == 19 or current_row == 21:
+            # if current row is 19 or 21, skip and go to next row
+            if current_row == 19 or current_row == 21:  
                 continue
+
             print(current_row)
             for cell in row:
                 if cell.value is not None:
