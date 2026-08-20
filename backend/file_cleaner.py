@@ -54,7 +54,12 @@ def combine_files(file1, file2, output):
     # helper function to get the data from both files and store them in respective dict's
     def retrive_excel_data(ws):
         data_dict = {}
-        for row in ws.iter_rows(min_row=5, max_row=18, min_col=6, max_col=51):
+        for row in ws.iter_rows(min_row=5, max_row=22, min_col=6, max_col=51):
+            current_row = row[0].row
+
+            if current_row == 19 or current_row == 21:
+                continue
+            print(current_row)
             for cell in row:
                 if cell.value is not None:
                     value = cell.value
@@ -75,8 +80,11 @@ def combine_files(file1, file2, output):
                 combined_data[(key2)] = value + value2
                 break
 
+    # print(combined_data)
+
     # iterate over dict and add into new excel file
     for (row, col), value in combined_data.items():
+        
         ws3.cell(
             row=row,
             column=col,
@@ -84,6 +92,7 @@ def combine_files(file1, file2, output):
         )
 
     print('File created successfully!')
+    
     cleaned_file.save(output_path)
 
 # file 1
